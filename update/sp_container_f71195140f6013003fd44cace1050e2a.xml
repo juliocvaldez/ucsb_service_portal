@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_container">
+    <sp_container action="INSERT_OR_UPDATE">
+        <background_color>#DCE1E5</background_color>
+        <background_image/>
+        <background_style>cover</background_style>
+        <bootstrap_alt>false</bootstrap_alt>
+        <class_name>hidden-xs</class_name>
+        <container_class_name/>
+        <name>IT index - Container 1</name>
+        <order>1</order>
+        <sp_page display_value="ucsb_it_index">771195140f6013003fd44cace1050e28</sp_page>
+        <subheader>false</subheader>
+        <sys_class_name>sp_container</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-02-23 19:29:18</sys_created_on>
+        <sys_id>f71195140f6013003fd44cace1050e2a</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>IT index - Container 1</sys_name>
+        <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
+        <sys_update_name>sp_container_f71195140f6013003fd44cace1050e2a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-02-23 20:09:33</sys_updated_on>
+        <title/>
+        <width>container</width>
+    </sp_container>
+</record_update>

@@ -7,7 +7,7 @@
         <licensable>true</licensable>
         <license_model>none</license_model>
         <logo/>
-        <menu/>
+        <menu display_value="UCSB Service center">17f3154c0fa013003fd44cace1050e2b</menu>
         <name>UCSB Service Portal</name>
         <private>false</private>
         <restrict_table_access>false</restrict_table_access>
@@ -23,9 +23,9 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-02-21 23:59:05</sys_created_on>
         <sys_id>44bb3f670f1013003fd44cace1050e00</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-02-21 23:59:05</sys_updated_on>
+        <sys_updated_on>2018-02-23 17:39:03</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <user_role/>
