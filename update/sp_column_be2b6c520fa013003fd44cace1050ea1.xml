@@ -3,22 +3,22 @@
     <sp_column action="INSERT_OR_UPDATE">
         <class_name/>
         <order>1</order>
-        <size>6</size>
+        <size>4</size>
         <size_lg/>
         <size_sm/>
         <size_xs/>
-        <sp_row display_value="1">033661dc0f6013003fd44cace1050e91</sp_row>
+        <sp_row display_value="1">e62b6c520fa013003fd44cace1050ea0</sp_row>
         <sys_class_name>sp_column</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-02-23 21:01:33</sys_created_on>
-        <sys_id>973661dc0f6013003fd44cace1050e92</sys_id>
+        <sys_created_on>2018-03-01 21:51:19</sys_created_on>
+        <sys_id>be2b6c520fa013003fd44cace1050ea1</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>1</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
-        <sys_update_name>sp_column_973661dc0f6013003fd44cace1050e92</sys_update_name>
+        <sys_update_name>sp_column_be2b6c520fa013003fd44cace1050ea1</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-02-23 21:01:33</sys_updated_on>
+        <sys_updated_on>2018-03-01 21:51:19</sys_updated_on>
     </sp_column>
 </record_update>
