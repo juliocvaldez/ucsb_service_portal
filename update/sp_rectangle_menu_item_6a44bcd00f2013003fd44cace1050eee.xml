@@ -41,10 +41,10 @@ if (st.isValid()) {
   while (st.next()) {
     var a = {};
     // $sp.getRecordValues(a, st, 'short_description,sys_id,number,sys_updated_on');
-    a.short_description = st.short_description; // added by JCV
-  	a.sys_id = st.sys_id; // added by JCV
-  	a.number = st.number; // added by JCV
-  	a.sys_updated_on = st.sys_updated_on; // added by JCV
+    a.short_description = st.short_description.getDisplayValue(); // added by JCV
+  	a.sys_id = st.sys_id.getDisplayValue(); // added by JCV
+  	a.number = st.number.getDisplayValue(); // added by JCV
+  	a.sys_updated_on = st.sys_updated_on.getDisplayValue(); // added by JCV
     
     if (st.short_description.nil())
       a.short_description = "(No description)";
@@ -66,9 +66,9 @@ z.query();
 while (z.next()) {
   var a = {};
   // $sp.getRecordValues(a, z, 'short_description,sys_id,number,sys_updated_on');
-  a.short_description = z.short_description; // added by JCV
-  a.sys_id = z.sys_id; // added by JCV
-  a.number = z.number; // added by JCV
+  a.short_description = z.short_description.getDisplayValue(); // added by JCV
+  a.sys_id = z.sys_id.getDisplayValue(); // added by JCV
+  a.number = z.number.getDisplayValue(); // added by JCV
   a.sys_updated_on = z.sys_updated_on; // added by JCV
 
   if (z.short_description.nil())
@@ -94,9 +94,9 @@ while (z.next()) {
     continue;
 
   var a = {};
-  //$sp.getRecordValues(a, z, 'sys_id,number,sys_updated_on'); // not available in scoped app
-  a.sys_id = z.sys_id // added by JCV
-  a.number = z.number // added by JCV
+  //$sp.getRecordDisplayValues(a, z, 'sys_id,number,sys_updated_on'); // not available in scoped app
+  a.sys_id = z.sys_id.getDisplayValue() // added by JCV
+  a.number = z.number.getDisplayValue() // added by JCV
   a.sys_updated_on = z.sys_updated_on // added by JCV
 
   if (ritm.hasNext())
@@ -127,14 +127,14 @@ t.items.unshift(link); // put 'View all requests' first]]></record_script>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-02-23 17:23:20</sys_created_on>
         <sys_id>6a44bcd00f2013003fd44cace1050eee</sys_id>
-        <sys_mod_count>25</sys_mod_count>
+        <sys_mod_count>31</sys_mod_count>
         <sys_name>Tickets</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
         <sys_update_name>sp_rectangle_menu_item_6a44bcd00f2013003fd44cace1050eee</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-02-23 19:11:58</sys_updated_on>
+        <sys_updated_on>2018-03-01 23:27:52</sys_updated_on>
         <table/>
         <type>scripted</type>
         <url/>
