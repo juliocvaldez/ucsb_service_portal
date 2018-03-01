@@ -22,7 +22,7 @@
         <internal>false</internal>
         <link/>
         <name>UCSB Announcements Ticker</name>
-        <option_schema>[{"name":"secondary_fields","label":"Secondary fields","type":"field_list"},{"hint":"kb_category","name":"category_field","label":"Category field","type":"string"}]</option_schema>
+        <option_schema>[{"name":"secondary_fields","label":"Secondary fields","type":"field_list"},{"hint":"kb_category","name":"category_field","label":"Category field","type":"string"},{"hint":"#EF5645","name":"alert_icon_color","label":"Alert icon color","type":"string"},{"hint":"#04859B","name":"info_icon_color","label":"Information icon color","type":"string"}]</option_schema>
         <public>true</public>
         <roles/>
         <script><![CDATA[(function() {
@@ -42,6 +42,9 @@
 	options.display_field = options.display_field || gr.getDisplayName();
 	options.category_field = options.category_field || "kb_category"
 	options.order_by = options.order_by || "published";
+	options.info_icon_color = options.info_icon_color || "#04859B" // gold - not being used
+	options.alert_icon_color = options.alert_icon_color || "#EF5645" // coral - not being used
+	
 
 	options.secondary_fields = options.secondary_fields || "";
 	options.secondary_fields = options.secondary_fields.split(",");
@@ -118,14 +121,14 @@ function getField(gr, name) {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-02-27 19:53:31</sys_created_on>
         <sys_id>6d0df1290f6013003fd44cace1050e78</sys_id>
-        <sys_mod_count>234</sys_mod_count>
+        <sys_mod_count>261</sys_mod_count>
         <sys_name>UCSB Announcements Ticker</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
         <sys_update_name>sp_widget_6d0df1290f6013003fd44cace1050e78</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-03-01 01:45:13</sys_updated_on>
+        <sys_updated_on>2018-03-01 17:10:12</sys_updated_on>
         <template><![CDATA[<div ng-if="data.list.length > 0">
   <div class="panel panel-{{options.color}}">
     <div class="panel-heading">
@@ -141,10 +144,10 @@ function getField(gr, name) {
           <img ng-src="{{item.image_field}}" alt="..." class="img-circle">
         </span>
         <span ng-if="!options.image_field && item.category == 'Alerts'">
-          <fa name="exclamation-triangle" />
+          <fa style="color:#EF5645" name="exclamation-triangle" />
         </span>
         <span ng-if="!options.image_field && item.category == 'Information'">
-          <fa name="info-circle" />
+          <fa style="color:#04859B" name="info-circle" />
         </span>
         {{::item.display_field}}<br>
         <small class="text-muted" ng-repeat="f in item.secondary_fields">
