@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function(spUtil, $scope, $rootScope, $window) {
+	/* widget controller */
+	var c = this;
+
+	//Initialize the filter for the record watcher
+	c.watchFilter = "u_status=published";
+	spUtil.recordWatch($scope, "u_service_portal_announcement", c.watchFilter, function(name, data) { 
+		c.data.action = "new_announcement";
+		c.server.update().then(function(response) {
+			$rootScope.$broadcast('sp.announcement.inserted'); //notify all other announcement widgets
+		});
+		
+	});
+
+	c.closeAnnouncements = function() {
+		c.data.showAnnouncements = false;
+
+		c.data.closeAnnouncementArr = [].concat(c.data.informationAnnouncements, c.data.outages);		
+		c.data.action = "close_announcements";
+		c.server.update();		
+	};
+
+	c.openAnnouncements = function() {
+		$window.location.href = "?id=announcement_overview";
+	};
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>/* Announcement Header */&#13;
+&#13;
+.announcement-container {&#13;
+  font-family: "Open Sans", Arial, sans-serif;&#13;
+&#13;
+  h3 {&#13;
+    padding-top:0px;&#13;
+    margin-top:5px;&#13;
+    margin-bottom:0;&#13;
+    font-size:18px;&#13;
+    line-height:27px;&#13;
+&#13;
+  }&#13;
+  p {&#13;
+    font-size:1em;&#13;
+    line-height:13px;&#13;
+  }&#13;
+  .panel {&#13;
+    border-radius:0;&#13;
+    margin-bottom:0;&#13;
+  }&#13;
+  .panel-body {&#13;
+    padding:2px;&#13;
+  }&#13;
+  small {&#13;
+    font-size:100%;&#13;
+  }&#13;
+}&#13;
+&#13;
+.announcement-container {&#13;
+  padding:0 0 0 0;&#13;
+}&#13;
+&#13;
+.announcement-info {&#13;
+  background-color: $brand-info;&#13;
+  color: #fff;&#13;
+&#13;
+  h3 {&#13;
+    color:$primary-color;&#13;
+    font-weight:bold;&#13;
+  }&#13;
+  .announcement-category {&#13;
+    border:0px solid $primary-color;&#13;
+  }&#13;
+  .information-icon {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  small {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  p {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  .btn {&#13;
+    background-color:$brand-primary;&#13;
+    color:#fff;&#13;
+    border:0;&#13;
+    &amp;:hover {&#13;
+      border:1px solid #eee;&#13;
+      color:#eee;&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.announcement-warning {&#13;
+  $primary-color: #555;&#13;
+  background-color: $brand-warning;&#13;
+  color: #fff;&#13;
+  h3 {&#13;
+    color:$primary-color;&#13;
+    font-weight:bold;&#13;
+  }&#13;
+  .announcement-category {&#13;
+    border:0px solid $primary-color;&#13;
+  }&#13;
+  .information-icon {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  small {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  p {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  .btn {&#13;
+    background-color:$brand-primary;&#13;
+    color:#fff;&#13;
+    border:0;&#13;
+    &amp;:hover {&#13;
+      border:1px solid #eee;&#13;
+      color:#eee;&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.announcement-danger {&#13;
+  $primary-color: #dee5e7;&#13;
+  background-color: $brand-danger;&#13;
+  color: #fff;&#13;
+  h3 {&#13;
+    color:$primary-color;&#13;
+    font-weight:bold;&#13;
+  }&#13;
+  .announcement-category {&#13;
+    border:0px solid $primary-color;&#13;
+  }&#13;
+  .information-icon {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  small {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  p {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  .btn {&#13;
+    background-color:$brand-primary;&#13;
+    color:#fff;&#13;
+    border:0;&#13;
+    &amp;:hover {&#13;
+      border:1px solid #eee;&#13;
+      color:#eee;&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.announcement-success {&#13;
+  $primary-color: #fff;&#13;
+  background-color: $brand-success;&#13;
+  color: #fff;&#13;
+&#13;
+  h3 {&#13;
+    color:$primary-color;&#13;
+    font-weight:bold;&#13;
+  }&#13;
+  .announcement-category {&#13;
+    border:0px solid $primary-color;&#13;
+  }&#13;
+  .information-icon {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  small {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  p {&#13;
+    color:$primary-color;&#13;
+  }&#13;
+  .btn {&#13;
+    background-color:$brand-primary;&#13;
+    color:#fff;&#13;
+    border:0;&#13;
+    &amp;:hover {&#13;
+      border:1px solid #eee;&#13;
+      color:#eee;&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.announcement-category {&#13;
+  font-size: 1.3em;&#13;
+  font-weight: 100;&#13;
+  padding:1%;&#13;
+  text-align:left;&#13;
+}&#13;
+&#13;
+.announcement-published {&#13;
+  font-size:12px;&#13;
+  font-weight:normal;&#13;
+  vertical-align:bottom;&#13;
+  margin-top:3px;&#13;
+}&#13;
+&#13;
+.announcement-text {&#13;
+  padding-left:40px;&#13;
+}&#13;
+&#13;
+.announcement-button {&#13;
+  padding-left: 25px;&#13;
+  padding-bottom: 10px;&#13;
+  padding-top: 10px;&#13;
+}&#13;
+&#13;
+.close {&#13;
+  opacity: inherit;&#13;
+  color: #fff;&#13;
+  padding-top:8px;&#13;
+  padding-bottom:4px;&#13;
+  padding-left:10px;&#13;
+  font-size:1em;&#13;
+  font-weight:100;&#13;
+  &amp;:hover {&#13;
+    border-bottom:2px solid #fff;&#13;
+  }&#13;
+}&#13;
+&#13;
+@media (max-width: 768px) {&#13;
+  .cta {&#13;
+    padding-bottom:10px;&#13;
+  }&#13;
+  .information-icon, .announcement-published {&#13;
+    padding-left:4px;&#13;
+  }&#13;
+  .announcement-category {&#13;
+    padding-left:12px;&#13;
+  }&#13;
+  .announcement-text {&#13;
+    padding-left:15px;&#13;
+  }&#13;
+}&#13;
+&#13;
+.cta .dismiss {&#13;
+  margin-top:5%;&#13;
+}&#13;
+&#13;
+.close i {&#13;
+  font-size:1.3em;&#13;
+  font-weight:normal;&#13;
+}&#13;
+&#13;
+.information-icon {&#13;
+  line-height:1em;&#13;
+}&#13;
+&#13;
+&#13;
+/*!&#13;
+* bootstrap-notifications v0.9.0 (https://skywalkapps.github.io/bootstrap-notifications)&#13;
+* Copyright 2016 Martin Staněk&#13;
+* Licensed under MIT&#13;
+*/&#13;
+.dropdown-container {&#13;
+  position: absolute;&#13;
+  top: 100%;&#13;
+  left: 0;&#13;
+  z-index: 1000;&#13;
+  display: none;&#13;
+  float: left;&#13;
+  min-width: 200px;&#13;
+  max-width: 330px;&#13;
+  margin: 2px 0 0;&#13;
+  list-style: none;&#13;
+  font-size: 14px;&#13;
+  background-color: #fff;&#13;
+  border: 1px solid #ccc;&#13;
+  border: 1px solid rgba(0, 0, 0, 0.15);&#13;
+  border-radius: 4px;&#13;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);&#13;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);&#13;
+  background-clip: padding-box;&#13;
+}&#13;
+.dropdown-container &gt; .dropdown-menu {&#13;
+  position: static;&#13;
+  z-index: 1000;&#13;
+  float: none!important;&#13;
+  padding: 10px 0;&#13;
+  margin: 0;&#13;
+  border: 0;&#13;
+  background: transparent;&#13;
+  border-radius: 0;&#13;
+  -webkit-box-shadow: none;&#13;
+  box-shadow: none;&#13;
+  max-height: 330px;&#13;
+  overflow-y: auto;&#13;
+}&#13;
+.dropdown-container &gt; .dropdown-menu + .dropdown-menu {&#13;
+  padding-top: 0;&#13;
+}&#13;
+.dropdown-menu &gt; li &gt; a {&#13;
+  overflow: hidden;&#13;
+  white-space: nowrap;&#13;
+  word-wrap: normal;&#13;
+  text-decoration: none;&#13;
+  text-overflow: ellipsis;&#13;
+  -o-text-overflow: ellipsis;&#13;
+  -webkit-transition: none;&#13;
+  -o-transition: none;&#13;
+  transition: none;&#13;
+}&#13;
+.dropdown-toggle {&#13;
+  cursor: pointer;&#13;
+}&#13;
+.dropdown-header {&#13;
+  white-space: nowrap;&#13;
+}&#13;
+.open &gt; .dropdown-container &gt; .dropdown-menu,&#13;
+.open &gt; .dropdown-container {&#13;
+  display: block;&#13;
+}&#13;
+.dropdown-toolbar {&#13;
+  padding-top: 6px;&#13;
+  padding-left: 20px;&#13;
+  padding-right: 20px;&#13;
+  padding-bottom: 5px;&#13;
+  background-color: #fff;&#13;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);&#13;
+  border-radius: 4px 4px 0 0;&#13;
+}&#13;
+.dropdown-toolbar &gt; .form-group {&#13;
+  margin: 5px -10px;&#13;
+}&#13;
+.dropdown-toolbar .dropdown-toolbar-actions {&#13;
+  float: right;&#13;
+}&#13;
+.dropdown-toolbar .dropdown-toolbar-title {&#13;
+  margin: 0;&#13;
+  font-size: 14px;&#13;
+}&#13;
+.dropdown-footer {&#13;
+  padding: 5px 20px;&#13;
+  border-top: 1px solid #ccc;&#13;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);&#13;
+  border-radius: 0 0 4px 4px;&#13;
+}&#13;
+.anchor-block small {&#13;
+  display: none;&#13;
+}&#13;
+@media (min-width: 992px) {&#13;
+  .anchor-block small {&#13;
+    display: block;&#13;
+    font-weight: normal;&#13;
+    color: #777777;&#13;
+  }&#13;
+  .dropdown-menu &gt; li &gt; a.anchor-block {&#13;
+    padding-top: 6px;&#13;
+    padding-bottom: 6px;&#13;
+  }&#13;
+}&#13;
+@media (min-width: 992px) {&#13;
+  .dropdown.hoverable:hover &gt; ul {&#13;
+    display: block;&#13;
+  }&#13;
+}&#13;
+.dropdown-position-topright {&#13;
+  top: auto;&#13;
+  right: 0;&#13;
+  bottom: 100%;&#13;
+  left: auto;&#13;
+  margin-bottom: 2px;&#13;
+}&#13;
+.dropdown-position-topleft {&#13;
+  top: auto;&#13;
+  right: auto;&#13;
+  bottom: 100%;&#13;
+  left: 0;&#13;
+  margin-bottom: 2px;&#13;
+}&#13;
+.dropdown-position-bottomright {&#13;
+  right: 0;&#13;
+  left: auto;&#13;
+}&#13;
+.dropmenu-item-label {&#13;
+  white-space: nowrap;&#13;
+}&#13;
+.dropmenu-item-content {&#13;
+  position: absolute;&#13;
+  text-align: right;&#13;
+  max-width: 60px;&#13;
+  right: 20px;&#13;
+  color: #777777;&#13;
+  overflow: hidden;&#13;
+  white-space: nowrap;&#13;
+  word-wrap: normal;&#13;
+  -o-text-overflow: ellipsis;&#13;
+  text-overflow: ellipsis;&#13;
+}&#13;
+small.dropmenu-item-content {&#13;
+  line-height: 20px;&#13;
+}&#13;
+.dropdown-menu &gt; li &gt; a.dropmenu-item {&#13;
+  position: relative;&#13;
+  padding-right: 66px;&#13;
+}&#13;
+.dropdown-submenu .dropmenu-item-content {&#13;
+  right: 40px;&#13;
+}&#13;
+.dropdown-menu &gt; li.dropdown-submenu &gt; a.dropmenu-item {&#13;
+  padding-right: 86px;&#13;
+}&#13;
+.dropdown-inverse .dropdown-menu {&#13;
+  background-color: rgba(0, 0, 0, 0.8);&#13;
+  border: 1px solid rgba(0, 0, 0, 0.9);&#13;
+}&#13;
+.dropdown-inverse .dropdown-menu .divider {&#13;
+  height: 1px;&#13;
+  margin: 9px 0;&#13;
+  overflow: hidden;&#13;
+  background-color: #2b2b2b;&#13;
+}&#13;
+.dropdown-inverse .dropdown-menu &gt; li &gt; a {&#13;
+  color: #cccccc;&#13;
+}&#13;
+.dropdown-inverse .dropdown-menu &gt; li &gt; a:hover,&#13;
+.dropdown-inverse .dropdown-menu &gt; li &gt; a:focus {&#13;
+  color: #fff;&#13;
+  background-color: #262626;&#13;
+}&#13;
+.dropdown-inverse .dropdown-menu &gt; .active &gt; a,&#13;
+.dropdown-inverse .dropdown-menu &gt; .active &gt; a:hover,&#13;
+.dropdown-inverse .dropdown-menu &gt; .active &gt; a:focus {&#13;
+  color: #fff;&#13;
+  background-color: #337ab7;&#13;
+}&#13;
+.dropdown-inverse .dropdown-menu &gt; .disabled &gt; a,&#13;
+.dropdown-inverse .dropdown-menu &gt; .disabled &gt; a:hover,&#13;
+.dropdown-inverse .dropdown-menu &gt; .disabled &gt; a:focus {&#13;
+  color: #777777;&#13;
+}&#13;
+.dropdown-inverse .dropdown-header {&#13;
+  color: #777777;&#13;
+}&#13;
+.table &gt; thead &gt; tr &gt; th.col-actions {&#13;
+  padding-top: 0;&#13;
+  padding-bottom: 0;&#13;
+}&#13;
+.table &gt; thead &gt; tr &gt; th.col-actions .dropdown-toggle {&#13;
+  color: #777777;&#13;
+}&#13;
+.notifications {&#13;
+  list-style: none;&#13;
+  padding: 0;&#13;
+}&#13;
+.notification {&#13;
+  display: block;&#13;
+  padding: 9.6px 12px;&#13;
+  border-bottom: 1px solid #eeeeee;&#13;
+  color: #333333;&#13;
+  text-decoration: none;&#13;
+}&#13;
+.notification:last-child {&#13;
+  border-bottom: 0;&#13;
+}&#13;
+&#13;
+.notification-title {&#13;
+  font-size: 15px;&#13;
+  margin-bottom: 0;&#13;
+}&#13;
+.notification-desc {&#13;
+  margin-bottom: 0;&#13;
+}&#13;
+.notification-meta {&#13;
+  color: #777777;&#13;
+}&#13;
+a.notification:hover {&#13;
+  text-decoration: none;&#13;
+}&#13;
+.dropdown-notifications &gt; .dropdown-container,&#13;
+.dropdown-notifications &gt; .dropdown-menu {&#13;
+  width: 450px;&#13;
+  max-width: 450px;&#13;
+}&#13;
+.dropdown-notifications .dropdown-menu {&#13;
+  padding: 0;&#13;
+}&#13;
+.dropdown-notifications .dropdown-toolbar,&#13;
+.dropdown-notifications .dropdown-footer {&#13;
+  padding: 9.6px 12px;&#13;
+}&#13;
+.dropdown-notifications .dropdown-toolbar {&#13;
+  background: #fff;&#13;
+}&#13;
+.dropdown-notifications .dropdown-footer {&#13;
+  background: #eeeeee;&#13;
+}&#13;
+.notification-icon {&#13;
+  margin-right: 6.8775px;&#13;
+}&#13;
+.notification-icon:after {&#13;
+  position: absolute;&#13;
+  content: attr(data-count);&#13;
+  margin-left: -6.8775px;&#13;
+  margin-top: -6.8775px;&#13;
+  padding: 0 4px;&#13;
+  min-width: 13.755px;&#13;
+  height: 13.755px;&#13;
+  line-height: 13.755px;&#13;
+  background: red;&#13;
+  border-radius: 10px;&#13;
+  color: #fff;&#13;
+  text-align: center;&#13;
+  vertical-align: middle;&#13;
+  font-size: 11.004px;&#13;
+  font-weight: 600;&#13;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;&#13;
+}&#13;
+&#13;
+.btn-lg .notification-icon:after {&#13;
+  margin-left: -8.253px;&#13;
+  margin-top: -8.253px;&#13;
+  min-width: 16.506px;&#13;
+  height: 16.506px;&#13;
+  line-height: 16.506px;&#13;
+  font-size: 13.755px;&#13;
+}&#13;
+.btn-xs .notification-icon:after {&#13;
+  content: '';&#13;
+  margin-left: -4.1265px;&#13;
+  margin-top: -2.06325px;&#13;
+  min-width: 6.25227273px;&#13;
+  height: 6.25227273px;&#13;
+  line-height: 6.25227273px;&#13;
+  padding: 0;&#13;
+}&#13;
+.btn-xs .notification-icon {&#13;
+  margin-right: 3.43875px;&#13;
+}&#13;
+</css>
+        <data_table>u_sp_announcement_instance</data_table>
+        <demo_data/>
+        <description>Customized for ucsb.</description>
+        <docs/>
+        <field_list>u_background_color,u_text_color,u_more_text_color,u_information_glyph,u_outage_glyph</field_list>
+        <has_preview>false</has_preview>
+        <id>ucsb-announcements-header</id>
+        <internal>false</internal>
+        <link/>
+        <name>UCSB Announcements for Header</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+
+	if(!input) {
+		/* Retrieve all available announcements */
+		getAnnouncements();
+	}
+
+	/* When the user dismisses the announcements, insert a "viewed" record so they don't appear next time */
+	if(input && input.action == "close_announcements") {		
+		var closeAnnouncementArr = input.closeAnnouncementArr;
+		for(var x = 0; x < closeAnnouncementArr.length; x++) {
+			var grAnnouncementView = new GlideRecord("u_service_portal_announcement_view");
+			grAnnouncementView.initialize();
+			grAnnouncementView.u_announcement = closeAnnouncementArr[x].sys_id;
+			grAnnouncementView.u_user = gs.getUserID();
+			grAnnouncementView.insert();
+		}
+		
+	}
+
+	/* When record watch detects a new announcement, we will update the data object with the new announcement */
+	if(input && input.action == "new_announcement") {		
+		getAnnouncements();
+	}
+
+
+	function getAnnouncements() {
+		data.showAnnouncements = true;
+		
+		var spAnnouncementUtils = new global.SPAnnouncementUtils();
+
+		//Information Alert Handling
+		var grAnnouncement = new GlideRecord("u_service_portal_announcement");
+		grAnnouncement.addQuery("u_status", "published"); //we only want to show published announcements
+		grAnnouncement.orderByDesc("u_published_at");
+		grAnnouncement.query();
+		
+		data.informationAnnouncements = [];
+		data.informationAnnouncementIDs = "";
+		data.outages = [];
+		data.outageIDs = "";
+
+		while (grAnnouncement.next()) {
+			//verify if the user has dismissed this announcement
+			if(!hasViewed(grAnnouncement)) {
+				//if alert is globally available push it into the alert array			
+				if(grAnnouncement.u_global_availability) {
+					if(grAnnouncement.getValue("u_type") == "information") {
+						pushInformationAnnouncement(grAnnouncement);
+					} else {
+						pushOutageAnnouncement(grAnnouncement);
+					}
+
+				} else {
+					//if the alert is not globally available, verify if the user can see the alert
+					if(spAnnouncementUtils.checkAvailability(grAnnouncement, spAnnouncementUtils)) {
+						if(grAnnouncement.getValue("u_type") == "information") {
+							pushInformationAnnouncement(grAnnouncement);
+						} else {
+							pushOutageAnnouncement(grAnnouncement);
+						}
+					}			
+				}
+			}
+		}
+	}
+
+	function pushInformationAnnouncement(announcementRecord) {
+		var announcement = {};
+		$sp.getRecordDisplayValues(announcement, announcementRecord, "u_content, u_short_description");
+		$sp.getRecordValues(announcement, announcementRecord, "u_published_at,u_details_url,sys_id,u_class,u_more_info_link,u_more_info_button_text");
+		data.informationAnnouncements.push(announcement);
+		data.informationAnnouncementIDs += "," + announcementRecord.getUniqueValue();
+	}
+
+	function pushOutageAnnouncement(announcementRecord) {
+		//Outage Handling
+		var outage = {};
+
+		$sp.getRecordDisplayValues(outage, announcementRecord, "u_outage.type,u_outage.cmdb_ci, u_outage.begin, u_published_at, u_content, u_short_description");
+		$sp.getRecordValues(outage, announcementRecord, "u_details_url,sys_id,u_class,u_more_info_link,u_more_info_button_text");
+
+		outage.serviceID = announcementRecord.u_outage.cmdb_ci.toString(); //can't use get value, would otherwise collide with the display value
+		
+	
+		outage.announcement_id = announcementRecord.getUniqueValue();
+		data.outages.push(outage);
+		data.outageIDs += "," + announcementRecord.getValue("u_outage");
+	}
+
+
+	/**
+
+* Description: Determine if the current logged in user has seen an announcement
+
+* Parameters: announcementRecord - GlideRecord for the Announcement
+
+* Returns: true if an announcement has been viewed, false if not
+*/
+	function hasViewed(announcementRecord) {
+		var grAnnouncementView = new GlideRecord("u_service_portal_announcement_view");
+		grAnnouncementView.addQuery("u_announcement", announcementRecord.getUniqueValue());
+		grAnnouncementView.addQuery("u_user", gs.getUserID());
+		grAnnouncementView.query();
+		if(grAnnouncementView.next()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-02-27 01:24:01</sys_created_on>
+        <sys_id>191f7d150f2013003fd44cace1050e49</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>UCSB Announcements for Header</sys_name>
+        <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
+        <sys_update_name>sp_widget_191f7d150f2013003fd44cace1050e49</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-02-27 01:24:01</sys_updated_on>
+        <template><![CDATA[<div class="container-fluid announcement-container" ng-if="c.data.showAnnouncements && (c.data.informationAnnouncements.length > 0 || c.data.outages.length > 0)">
+  <!-- Information -->
+  <div ng-show="c.data.informationAnnouncements.length > 0 && c.data.showAnnouncements">
+    <div ng-repeat="announcement in data.informationAnnouncements | limitTo: 1" class="panel panel-{{announcement.u_class}} announcement-{{announcement.u_class}}">
+      <div class="container panel-body">
+        <div class="col-xs-12 col-sm-3 col-md-2 announcement-category">
+          <div class="information-icon">
+            <i class="fa fa-{{c.options.u_information_glyph}}" aria-hidden="true"></i> {{c.options.u_information_text || "Current Information"}} 
+          </div>
+          <div class="announcement-published">
+            <small>${Published:}</small>
+            <small>{{announcement.u_published_at}}</small>
+          </div>
+        </div> 
+        <div class="col-xs-12 col-sm-6 col-md-7 announcement-text">
+          <h3>{{announcement.u_short_description}}</h3>
+          <p class="notification-desc" ng-bind-html="announcement.u_content"></p>
+        </div>
+        <div class="col-xs-12 col-sm-3 col-md-3 cta">
+          <div class="dismiss row">
+            <div class="col-xs-6">
+              <a ng-if="announcement.u_more_info_link && announcement.u_more_info_button_text" href="{{announcement.u_more_info_link}}" class="btn btn-md active" role="button" aria-pressed="true">{{announcement.u_more_info_button_text}}</a>
+            <a ng-if="!announcement.u_more_info_link || !announcement.u_more_info_button_text" href="?id=announcement&sys_id={{announcement.sys_id}}" class="btn btn-md active" role="button" aria-pressed="true">${Read More}</a>
+            </div>
+            <div class="col-xs-6">
+              <button type="button" class="close" aria-label="Close" ng-click="c.closeAnnouncements()">
+    <span aria-hidden="true">${Dismiss} <i class="fa fa-close"></i></span></button>
+            </div>
+            
+          </div>
+        </div>
+      </div>          
+    </div>  
+  </div>	
+
+
+  <!-- Outages -->
+  <div ng-show="c.data.outages.length > 0 && c.data.showAnnouncements">
+    <div ng-repeat="outage in data.outages | limitTo: 1" class="panel panel-{{outage.u_class}} announcement-{{outage.u_class}}">
+      <div class="container panel-body">
+        <div class="col-xs-12 col-sm-3 col-md-2 announcement-category">
+          <div class="information-icon">
+            <i class="fa fa-{{c.options.u_outage_glyph}}" aria-hidden="true"></i> {{c.options.u_outage_text || "Service Interruption Messages"}} 
+          </div>
+          <div class="announcement-published">
+            <small>${Published:}</small>
+            <small>{{outage.u_published_at}}</small>
+          </div>
+        </div> 
+        <div ng-if="outage.u_short_description" class="col-xs-12 col-sm-6 col-md-7 announcement-text">
+          <h3>{{outage.u_short_description}}</h3>
+          <p class="notification-desc" ng-bind-html="outage.u_content">
+            {{outage["u_outage.type"]}} - {{outage["u_outage.cmdb_ci"]}} (${started {{outage["u_outage.begin"]}}})</p>
+        </div>
+        <div class="col-xs-12 col-sm-3 col-md-3 cta">
+          <div class="dismiss">
+            <a ng-if="outage.u_more_info_link && outage.u_more_info_button_text" href="{{outage.u_more_info_link}}" class="btn btn-md active" role="button" aria-pressed="true">{{outage.u_more_info_button_text}}</a>
+            <a ng-if="!outage.u_more_info_link || !outage.u_more_info_button_text" ng-href="?id=announcement&sys_id={{outage.sys_id}}" class="btn btn-md active" role="button" aria-pressed="true">${Outage Info}</a>
+          </div>
+        </div>
+      </div>          
+    </div>  
+  </div>
+  <div class="container announcement-content announcement-button" ng-if="data.outages.length > 1 || data.informationAnnouncements.length > 1">
+    <button class="btn btn-xs btn-primary" type="button" ng-click="c.openAnnouncements()">
+      <i class="fa fa-list-alt"></i> ${View all announcements}
+    </button>
+  </div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>
