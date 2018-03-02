@@ -3,9 +3,9 @@
     <sp_instance_link action="INSERT_OR_UPDATE">
         <active>true</active>
         <class_name/>
-        <color>primary</color>
+        <color>success</color>
         <css/>
-        <glyph>child</glyph>
+        <glyph>wechat</glyph>
         <id/>
         <kb_article/>
         <kb_category/>
@@ -13,33 +13,36 @@
         <order>0</order>
         <roles/>
         <sc_cat_item/>
-        <sc_category display_value="Can We Help You?">e15706fc0a0a0aa7007fc21e1ab70c2f</sc_category>
-        <short_description>Contact support to make a request or report a problem.</short_description>
+        <sc_category/>
+        <short_description>Want help finding something or have an emergency to report? Let's chat!</short_description>
         <size>md</size>
-        <sp_column display_value="2">28bd4d960fe013003fd44cace1050efb</sp_column>
-        <sp_page display_value="sc_category">07261a2147132100ba13a5554ee49092</sp_page>
+        <sp_column display_value="3">2cbd4d960fe013003fd44cace1050efc</sp_column>
+        <sp_page/>
         <sp_widget display_value="Icon Link">3caa67afcb13020000f8d856634c9c2e</sp_widget>
         <sys_class_name>sp_instance_link</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-02-23 22:46:11</sys_created_on>
-        <sys_id>0c3e79580fa013003fd44cace1050e5f</sys_id>
-        <sys_mod_count>15</sys_mod_count>
-        <sys_name>Get help</sys_name>
+        <sys_created_on>2018-03-02 00:22:34</sys_created_on>
+        <sys_id>56cdcd960fe013003fd44cace1050e16</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>Chat with us</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
-        <sys_update_name>sp_instance_link_0c3e79580fa013003fd44cace1050e5f</sys_update_name>
+        <sys_update_name>sp_instance_link_56cdcd960fe013003fd44cace1050e16</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-03-02 00:22:18</sys_updated_on>
-        <title>Get help</title>
-        <type>sc_category</type>
-        <url/>
+        <sys_updated_on>2018-03-02 00:36:57</sys_updated_on>
+        <title>Chat with us</title>
+        <type>url</type>
+        <url>https://dev10283.service-now.com/$chat_support.do?queueID=aeb40252d7133100816403548e610363</url>
         <widget_parameters><![CDATA[{
+	"target": {
+		"value": "_blank"
+	},
 	"link_template": {
 		"value": "Circle Icon",
 		"displayValue": "Circle Icon"
 	}
 }]]></widget_parameters>
     </sp_instance_link>
-    <sys_translated_text action="delete_multiple" query="documentkey=0c3e79580fa013003fd44cace1050e5f"/>
+    <sys_translated_text action="delete_multiple" query="documentkey=56cdcd960fe013003fd44cace1050e16"/>
 </record_update>
