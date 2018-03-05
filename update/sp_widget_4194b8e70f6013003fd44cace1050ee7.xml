@@ -6,8 +6,8 @@
 	var c = this;
 
 	//Initialize the filter for the record watcher
-	c.watchFilter = "u_status=published";
-	spUtil.recordWatch($scope, "u_service_portal_announcement", c.watchFilter, function(name, data) { 
+	c.watchFilter = "workflow_state=published";
+	spUtil.recordWatch($scope, "kb_knowledge", c.watchFilter, function(name, data) { 
 		c.data.action = "new_announcement";
 		c.server.update().then(function(response) {
 			$rootScope.$broadcast('sp.announcement.inserted'); //notify all other announcement widgets
@@ -24,7 +24,7 @@
 	};
 
 	c.openAnnouncements = function() {
-		$window.location.href = "?id=announcement_overview";
+		$window.location.href = "?id=ucsb_announcement_overview";
 	};
 }]]></client_script>
         <controller_as>c</controller_as>
@@ -535,11 +535,11 @@ a.notification:hover {&#13;
 </css>
         <data_table>u_sp_announcement_instance</data_table>
         <demo_data/>
-        <description>Customized for ucsb.</description>
+        <description/>
         <docs/>
         <field_list>u_background_color,u_text_color,u_more_text_color,u_information_glyph,u_outage_glyph</field_list>
-        <has_preview>false</has_preview>
-        <id>ucsb-announcements-header</id>
+        <has_preview>true</has_preview>
+        <id>ucsb-announcements-header-banner</id>
         <internal>false</internal>
         <link/>
         <name>UCSB Announcements for Header</name>
@@ -558,14 +558,7 @@ a.notification:hover {&#13;
 	/* When the user dismisses the announcements, insert a "viewed" record so they don't appear next time */
 	if(input && input.action == "close_announcements") {		
 		var closeAnnouncementArr = input.closeAnnouncementArr;
-		for(var x = 0; x < closeAnnouncementArr.length; x++) {
-			var grAnnouncementView = new GlideRecord("u_service_portal_announcement_view");
-			grAnnouncementView.initialize();
-			grAnnouncementView.u_announcement = closeAnnouncementArr[x].sys_id;
-			grAnnouncementView.u_user = gs.getUserID();
-			grAnnouncementView.insert();
-		}
-		
+		return null;
 	}
 
 	/* When record watch detects a new announcement, we will update the data object with the new announcement */
@@ -573,52 +566,34 @@ a.notification:hover {&#13;
 		getAnnouncements();
 	}
 
-
 	function getAnnouncements() {
 		data.showAnnouncements = true;
-		
-		var spAnnouncementUtils = new global.SPAnnouncementUtils();
 
 		//Information Alert Handling
-		var grAnnouncement = new GlideRecord("u_service_portal_announcement");
-		grAnnouncement.addQuery("u_status", "published"); //we only want to show published announcements
-		grAnnouncement.orderByDesc("u_published_at");
+		var grAnnouncement = new GlideRecord("kb_knowledge");
+		grAnnouncement.addActiveQuery();
+		grAnnouncement.addEncodedQuery("workflow_state=published^topic=News^kb_category=40126b7d0f6013003fd44cace1050ee1^ORkb_category=9702a7790f6013003fd44cace1050e03");
+		grAnnouncement.orderByDesc("published");
 		grAnnouncement.query();
-		
+
 		data.informationAnnouncements = [];
 		data.informationAnnouncementIDs = "";
 		data.outages = [];
 		data.outageIDs = "";
 
 		while (grAnnouncement.next()) {
-			//verify if the user has dismissed this announcement
-			if(!hasViewed(grAnnouncement)) {
-				//if alert is globally available push it into the alert array			
-				if(grAnnouncement.u_global_availability) {
-					if(grAnnouncement.getValue("u_type") == "information") {
-						pushInformationAnnouncement(grAnnouncement);
-					} else {
-						pushOutageAnnouncement(grAnnouncement);
-					}
-
-				} else {
-					//if the alert is not globally available, verify if the user can see the alert
-					if(spAnnouncementUtils.checkAvailability(grAnnouncement, spAnnouncementUtils)) {
-						if(grAnnouncement.getValue("u_type") == "information") {
-							pushInformationAnnouncement(grAnnouncement);
-						} else {
-							pushOutageAnnouncement(grAnnouncement);
-						}
-					}			
-				}
+			if(grAnnouncement.getDisplayValue("kb_category") == "Alerts") {
+				pushInformationAnnouncement(grAnnouncement);
+			} else {
+				pushOutageAnnouncement(grAnnouncement);
 			}
 		}
 	}
 
 	function pushInformationAnnouncement(announcementRecord) {
 		var announcement = {};
-		$sp.getRecordDisplayValues(announcement, announcementRecord, "u_content, u_short_description");
-		$sp.getRecordValues(announcement, announcementRecord, "u_published_at,u_details_url,sys_id,u_class,u_more_info_link,u_more_info_button_text");
+		$sp.getRecordDisplayValues(announcement, announcementRecord, "text, short_description");
+		$sp.getRecordValues(announcement, announcementRecord, "published,sys_id"); //,u_class,u_more_info_link,u_more_info_button_text
 		data.informationAnnouncements.push(announcement);
 		data.informationAnnouncementIDs += "," + announcementRecord.getUniqueValue();
 	}
@@ -627,81 +602,59 @@ a.notification:hover {&#13;
 		//Outage Handling
 		var outage = {};
 
-		$sp.getRecordDisplayValues(outage, announcementRecord, "u_outage.type,u_outage.cmdb_ci, u_outage.begin, u_published_at, u_content, u_short_description");
-		$sp.getRecordValues(outage, announcementRecord, "u_details_url,sys_id,u_class,u_more_info_link,u_more_info_button_text");
+		$sp.getRecordDisplayValues(outage, announcementRecord, "published, text, short_description"); //u_outage.type,u_outage.cmdb_ci, u_outage.begin, 
+		$sp.getRecordValues(outage, announcementRecord, "sys_id"); //u_details_url,u_class,u_more_info_link,u_more_info_button_text,u_class,u_more_info_link,u_more_info_button_text
 
-		outage.serviceID = announcementRecord.u_outage.cmdb_ci.toString(); //can't use get value, would otherwise collide with the display value
-		
-	
 		outage.announcement_id = announcementRecord.getUniqueValue();
 		data.outages.push(outage);
 		data.outageIDs += "," + announcementRecord.getValue("u_outage");
-	}
-
-
-	/**
-
-* Description: Determine if the current logged in user has seen an announcement
-
-* Parameters: announcementRecord - GlideRecord for the Announcement
-
-* Returns: true if an announcement has been viewed, false if not
-*/
-	function hasViewed(announcementRecord) {
-		var grAnnouncementView = new GlideRecord("u_service_portal_announcement_view");
-		grAnnouncementView.addQuery("u_announcement", announcementRecord.getUniqueValue());
-		grAnnouncementView.addQuery("u_user", gs.getUserID());
-		grAnnouncementView.query();
-		if(grAnnouncementView.next()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-02-27 01:24:01</sys_created_on>
-        <sys_id>191f7d150f2013003fd44cace1050e49</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_created_on>2018-03-05 19:44:51</sys_created_on>
+        <sys_id>4194b8e70f6013003fd44cace1050ee7</sys_id>
+        <sys_mod_count>28</sys_mod_count>
         <sys_name>UCSB Announcements for Header</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
-        <sys_update_name>sp_widget_191f7d150f2013003fd44cace1050e49</sys_update_name>
+        <sys_update_name>sp_widget_4194b8e70f6013003fd44cace1050ee7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-02-27 01:24:01</sys_updated_on>
+        <sys_updated_on>2018-03-05 23:45:49</sys_updated_on>
         <template><![CDATA[<div class="container-fluid announcement-container" ng-if="c.data.showAnnouncements && (c.data.informationAnnouncements.length > 0 || c.data.outages.length > 0)">
   <!-- Information -->
   <div ng-show="c.data.informationAnnouncements.length > 0 && c.data.showAnnouncements">
-    <div ng-repeat="announcement in data.informationAnnouncements | limitTo: 1" class="panel panel-{{announcement.u_class}} announcement-{{announcement.u_class}}">
+    <div ng-repeat="announcement in data.informationAnnouncements | limitTo: 1" class="panel panel-info announcement-info">
       <div class="container panel-body">
         <div class="col-xs-12 col-sm-3 col-md-2 announcement-category">
           <div class="information-icon">
-            <i class="fa fa-{{c.options.u_information_glyph}}" aria-hidden="true"></i> {{c.options.u_information_text || "Current Information"}} 
+            <i class="fa fa-{{c.options.u_information_glyph || 'info-circle'}}" aria-hidden="true"></i> {{c.options.u_information_text || "Current Information"}} 
           </div>
           <div class="announcement-published">
             <small>${Published:}</small>
-            <small>{{announcement.u_published_at}}</small>
+            <small>{{announcement.published}}</small>
           </div>
         </div> 
-        <div class="col-xs-12 col-sm-6 col-md-7 announcement-text">
-          <h3>{{announcement.u_short_description}}</h3>
-          <p class="notification-desc" ng-bind-html="announcement.u_content"></p>
+        <div class="col-xs-12 col-sm-6 col-md-6 announcement-text">
+          <h3>{{announcement.short_description}}</h3>
+          <p class="notification-desc" ng-bind-html="announcement.text"></p>
         </div>
-        <div class="col-xs-12 col-sm-3 col-md-3 cta">
+        <div class="col-xs-12 col-sm-3 col-md-4 cta">
           <div class="dismiss row">
             <div class="col-xs-6">
               <a ng-if="announcement.u_more_info_link && announcement.u_more_info_button_text" href="{{announcement.u_more_info_link}}" class="btn btn-md active" role="button" aria-pressed="true">{{announcement.u_more_info_button_text}}</a>
-            <a ng-if="!announcement.u_more_info_link || !announcement.u_more_info_button_text" href="?id=announcement&sys_id={{announcement.sys_id}}" class="btn btn-md active" role="button" aria-pressed="true">${Read More}</a>
+            <a ng-if="!announcement.u_more_info_link || !announcement.u_more_info_button_text" href="?id=ucsb_announcement_article&sys_id={{announcement.sys_id}}" class="btn btn-md active" role="button" aria-pressed="true">${Read More}</a>
             </div>
             <div class="col-xs-6">
               <button type="button" class="close" aria-label="Close" ng-click="c.closeAnnouncements()">
-    <span aria-hidden="true">${Dismiss} <i class="fa fa-close"></i></span></button>
-            </div>
-            
+                <span aria-hidden="true">
+                  <i class="fa fa-close" />
+                </span>
+              </button>
+            </div> 
           </div>
         </div>
       </div>          
@@ -711,26 +664,25 @@ a.notification:hover {&#13;
 
   <!-- Outages -->
   <div ng-show="c.data.outages.length > 0 && c.data.showAnnouncements">
-    <div ng-repeat="outage in data.outages | limitTo: 1" class="panel panel-{{outage.u_class}} announcement-{{outage.u_class}}">
+    <div ng-repeat="outage in data.outages | limitTo: 1" class="panel panel-danger announcement-danger">
       <div class="container panel-body">
         <div class="col-xs-12 col-sm-3 col-md-2 announcement-category">
           <div class="information-icon">
-            <i class="fa fa-{{c.options.u_outage_glyph}}" aria-hidden="true"></i> {{c.options.u_outage_text || "Service Interruption Messages"}} 
+            <i class="fa fa-{{c.options.u_outage_glyph || 'exclamation-triangle'}}" aria-hidden="true"></i> {{c.options.u_outage_text || "Service Interruption Messages"}} 
           </div>
           <div class="announcement-published">
             <small>${Published:}</small>
-            <small>{{outage.u_published_at}}</small>
+            <small>{{outage.published}}</small>
           </div>
         </div> 
-        <div ng-if="outage.u_short_description" class="col-xs-12 col-sm-6 col-md-7 announcement-text">
-          <h3>{{outage.u_short_description}}</h3>
-          <p class="notification-desc" ng-bind-html="outage.u_content">
-            {{outage["u_outage.type"]}} - {{outage["u_outage.cmdb_ci"]}} (${started {{outage["u_outage.begin"]}}})</p>
+        <div ng-if="outage.short_description" class="col-xs-12 col-sm-6 col-md-7 announcement-text">
+          <h3>{{outage.short_description}}</h3>
+          <p class="notification-desc" ng-bind-html="outage.text"></p>
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3 cta">
           <div class="dismiss">
             <a ng-if="outage.u_more_info_link && outage.u_more_info_button_text" href="{{outage.u_more_info_link}}" class="btn btn-md active" role="button" aria-pressed="true">{{outage.u_more_info_button_text}}</a>
-            <a ng-if="!outage.u_more_info_link || !outage.u_more_info_button_text" ng-href="?id=announcement&sys_id={{outage.sys_id}}" class="btn btn-md active" role="button" aria-pressed="true">${Outage Info}</a>
+            <a ng-if="!outage.u_more_info_link || !outage.u_more_info_button_text" ng-href="?id=ucsb_announcement_article&sys_id={{outage.sys_id}}" class="btn btn-md active" role="button" aria-pressed="true">${Outage Info}</a>
           </div>
         </div>
       </div>          

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
-        <client_script><![CDATA[function() {  /* widget controller */  var c = this;}]]></client_script>
+        <client_script><![CDATA[function($scope,spUtil) {
+  /* widget controller */
+  var c = this;
+	
+	// refresh the client data object whenever a change is detected
+	spUtil.recordWatch($scope,c.data.table,c.options.filter, function(name){
+			c.server.refresh();
+	})
+}]]></client_script>
         <controller_as>c</controller_as>
         <css/>
         <data_table>sp_instance_vlist</data_table>
@@ -40,10 +48,10 @@
 
 	options.title = options.title || gs.getMessage("UCSB Ticker");
 	options.display_field = options.display_field || gr.getDisplayName();
-	options.category_field = options.category_field || "kb_category"
+	options.category_field = options.category_field || "kb_category";
 	options.order_by = options.order_by || "published";
-	options.info_icon_color = options.info_icon_color || "#04859B" // gold - not being used
-	options.alert_icon_color = options.alert_icon_color || "#EF5645" // coral - not being used
+	options.info_icon_color = options.info_icon_color || "#04859B"; // gold - not being used
+	options.alert_icon_color = options.alert_icon_color || "#EF5645"; // coral - not being used
 	
 
 	options.secondary_fields = options.secondary_fields || "";
@@ -121,14 +129,14 @@ function getField(gr, name) {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-02-27 19:53:31</sys_created_on>
         <sys_id>6d0df1290f6013003fd44cace1050e78</sys_id>
-        <sys_mod_count>263</sys_mod_count>
+        <sys_mod_count>271</sys_mod_count>
         <sys_name>UCSB Announcements Ticker</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
         <sys_update_name>sp_widget_6d0df1290f6013003fd44cace1050e78</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-03-01 18:34:55</sys_updated_on>
+        <sys_updated_on>2018-03-05 19:32:18</sys_updated_on>
         <template><![CDATA[<div ng-if="data.list.length > 0">
   <div class="panel panel-{{options.color}}">
     <div class="panel-heading">
@@ -145,6 +153,9 @@ function getField(gr, name) {
         </span>
         <span ng-if="!options.image_field && item.category == 'Alerts'">
           <fa style="color:#EF5645" name="exclamation-triangle" />
+        </span>
+        <span ng-if="!options.image_field && item.category == 'News'">
+          <fa style="color:#FEBC11" name="exclamation-triangle" />
         </span>
         <span ng-if="!options.image_field && item.category == 'Information'">
           <fa style="color:#04859B" name="info-circle" />

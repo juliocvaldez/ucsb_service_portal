@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="u_sp_announcement_instance">
+    <u_sp_announcement_instance action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>0</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">a4ad9de70fa013003fd44cace1050ec4</sp_column>
+        <sp_widget display_value="UCSB Announcements for Header">4194b8e70f6013003fd44cace1050ee7</sp_widget>
+        <sys_class_name>u_sp_announcement_instance</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-03-05 22:12:44</sys_created_on>
+        <sys_id>9f66d1a70fa013003fd44cace1050e2b</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
+        <sys_update_name>u_sp_announcement_instance_9f66d1a70fa013003fd44cace1050e2b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-03-05 22:44:17</sys_updated_on>
+        <title/>
+        <u_background_color/>
+        <u_information_glyph>info-circle</u_information_glyph>
+        <u_information_glyph_color/>
+        <u_information_text>Campus news</u_information_text>
+        <u_link_color/>
+        <u_more_text_color/>
+        <u_outage_glyph>exclamation-triangle</u_outage_glyph>
+        <u_outage_glyph_color/>
+        <u_outage_text>Campus outage</u_outage_text>
+        <u_short_description_color/>
+        <u_text_color/>
+        <url/>
+        <widget_parameters/>
+    </u_sp_announcement_instance>
+    <sys_translated_text action="delete_multiple" query="documentkey=9f66d1a70fa013003fd44cace1050e2b"/>
+</record_update>

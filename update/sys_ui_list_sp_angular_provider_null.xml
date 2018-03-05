@@ -4,47 +4,47 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>name</element>
-            <list_id display_value="sp_angular_provider" element="NULL" name="sp_angular_provider" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">22400a590f2013003fd44cace1050eba</list_id>
+            <list_id display_value="sp_angular_provider" element="NULL" name="sp_angular_provider" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0548d86b0f2013003fd44cace1050e3a</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-02-27 01:29:18</sys_created_on>
-            <sys_id>a6400a590f2013003fd44cace1050eba</sys_id>
+            <sys_created_on>2018-03-05 17:41:08</sys_created_on>
+            <sys_id>0148d86b0f2013003fd44cace1050e3b</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-02-27 01:29:18</sys_updated_on>
+            <sys_updated_on>2018-03-05 17:41:08</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>script</element>
-            <list_id display_value="sp_angular_provider" element="NULL" name="sp_angular_provider" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">22400a590f2013003fd44cace1050eba</list_id>
+            <list_id display_value="sp_angular_provider" element="NULL" name="sp_angular_provider" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0548d86b0f2013003fd44cace1050e3a</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-02-27 01:29:18</sys_created_on>
-            <sys_id>2a400a590f2013003fd44cace1050eba</sys_id>
+            <sys_created_on>2018-03-05 17:41:09</sys_created_on>
+            <sys_id>0948d86b0f2013003fd44cace1050e3b</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-02-27 01:29:18</sys_updated_on>
+            <sys_updated_on>2018-03-05 17:41:09</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>type</element>
-            <list_id display_value="sp_angular_provider" element="NULL" name="sp_angular_provider" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">22400a590f2013003fd44cace1050eba</list_id>
+            <list_id display_value="sp_angular_provider" element="NULL" name="sp_angular_provider" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0548d86b0f2013003fd44cace1050e3a</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-02-27 01:29:18</sys_created_on>
-            <sys_id>aa400a590f2013003fd44cace1050eba</sys_id>
+            <sys_created_on>2018-03-05 17:41:09</sys_created_on>
+            <sys_id>8948d86b0f2013003fd44cace1050e3b</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-02-27 01:29:18</sys_updated_on>
+            <sys_updated_on>2018-03-05 17:41:09</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
