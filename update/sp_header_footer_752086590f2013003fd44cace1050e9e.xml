@@ -155,21 +155,21 @@ if (data.menu && data.menu.data) {
 data.loginWidget = $sp.getWidgetFromInstance('login-modal');
 data.typeahead = $sp.getWidgetFromInstance('typeahead-search');
 data.announcementPicker = $sp.getWidget("announcement-picker");
-data.announcementWidget = $sp.getWidgetFromInstance("announcement-header-instance");
+data.announcementWidget = $sp.getWidgetFromInstance("ucsb-announcement-header-instance");
 ]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_header_footer</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-02-27 01:28:42</sys_created_on>
         <sys_id>752086590f2013003fd44cace1050e9e</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_name>UCSB Header w/ Announcement</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
         <sys_update_name>sp_header_footer_752086590f2013003fd44cace1050e9e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-02-27 01:28:42</sys_updated_on>
+        <sys_updated_on>2018-03-06 02:01:39</sys_updated_on>
         <template><![CDATA[<div class="announcement"> 
   <sp-widget widget="c.data.announcementWidget"></sp-widget>
 </div>

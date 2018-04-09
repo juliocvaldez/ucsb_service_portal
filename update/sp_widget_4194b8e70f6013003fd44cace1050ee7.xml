@@ -537,7 +537,7 @@ a.notification:hover {&#13;
         <demo_data/>
         <description/>
         <docs/>
-        <field_list>u_background_color,u_text_color,u_more_text_color,u_information_glyph,u_outage_glyph</field_list>
+        <field_list>title,u_background_color,u_more_text_color,u_outage_text,u_outage_glyph,u_outage_glyph_color,u_information_text,u_information_glyph,u_information_glyph_color</field_list>
         <has_preview>true</has_preview>
         <id>ucsb-announcements-header-banner</id>
         <internal>false</internal>
@@ -616,14 +616,14 @@ a.notification:hover {&#13;
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-03-05 19:44:51</sys_created_on>
         <sys_id>4194b8e70f6013003fd44cace1050ee7</sys_id>
-        <sys_mod_count>28</sys_mod_count>
+        <sys_mod_count>29</sys_mod_count>
         <sys_name>UCSB Announcements for Header</sys_name>
         <sys_package display_value="UCSB Service Portal" source="x_68580_ucsb_sp">44bb3f670f1013003fd44cace1050e00</sys_package>
         <sys_policy/>
         <sys_scope display_value="UCSB Service Portal">44bb3f670f1013003fd44cace1050e00</sys_scope>
         <sys_update_name>sp_widget_4194b8e70f6013003fd44cace1050ee7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-03-05 23:45:49</sys_updated_on>
+        <sys_updated_on>2018-03-06 02:09:13</sys_updated_on>
         <template><![CDATA[<div class="container-fluid announcement-container" ng-if="c.data.showAnnouncements && (c.data.informationAnnouncements.length > 0 || c.data.outages.length > 0)">
   <!-- Information -->
   <div ng-show="c.data.informationAnnouncements.length > 0 && c.data.showAnnouncements">
